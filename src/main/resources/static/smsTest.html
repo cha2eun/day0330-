@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#btnReq").click(function(){
+		var tel = $("#tel").val();
+		var data = {tel:tel};
+		$.ajax("cNum",{data:data,success:function(r){
+			alert(r.text());
+		}})
+		return false;
+	})
+	$("#btnOk").click(function(){
+		var telOk=$("#telOk").val();
+		$.ajax("cNumOk",{data:{telOk:telOk},success:function(r){
+			alert(r.text());
+		}})
+		return false;
+	})
+	
+	$("#btnJoin").click(function(){
+		//회원가입 기능
+	})
+})
+</script>
+</head>
+<body>
+	<h2>회원가입 인증</h2>
+	<form>
+	아이디:<input type="text" id="id" required="required"><br>
+	비밀번호:<input type="text" id="pwd" required="required"><br>
+	나이:	<input type="number" id="age"><br>
+	핸드폰번호:<input  type="text" id = "tel" required="required"><button id="btnReq">인증번호 요청</button><br>
+	인증번호:<input type="number" id="telOk" required="required"><button id="btnOk">확인</button>
+	</form>
+	<button id="btnJoin">가입</button>
+</body>
+</html>
