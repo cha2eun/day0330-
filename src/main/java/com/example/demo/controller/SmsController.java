@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.db.MemberDao;
-import com.google.gson.Gson;
 
 import kr.co.youiwe.webservice.ServiceSMSSoapProxy;
 
-@Controller
+@RestController
 public class SmsController {
 	@Autowired
 	private MemberDao dao;
@@ -24,26 +24,25 @@ public class SmsController {
 	Random rand = new Random();
 	int randNum = rand.nextInt(8999)+1000;
 	
-	@RequestMapping(value = "/cNumOk", method = RequestMethod.GET)
+	@RequestMapping("/cNumOk")
 	public String certiNum(int telOk) {
 		String str ="인증 실패";
 		if(randNum == telOk) {
 			str = "인증 완료";
 		}
 		System.out.println(str);
-//		str = new Gson().toJson(str);
 		return str;
 	}
 	
-	@RequestMapping(value = "/cNum", method = RequestMethod.GET)
+	@RequestMapping("/cNum")
 	public String numRequest(String tel) {
-		String id="rola";
-		String pwd="bit123400";
+		String id="";	//너나우리 아이디 비번 
+		String pwd="";
 		
 		String str ="인증번호 전송";
 		ServiceSMSSoapProxy sendsms = new ServiceSMSSoapProxy();
 		try {
-			String sender="01068689295";
+			String sender="";	//너나우리 문자 보낼 수 있는 발신번호
 			String receiver=tel;
 			String content ="[인증번호] "+randNum;
 			String test1 = (id + pwd + receiver);
@@ -53,7 +52,6 @@ public class SmsController {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());// TODO: handle exception
 		}
-//		str = new Gson().toJson(str);
 		return str;
 	}
 	
